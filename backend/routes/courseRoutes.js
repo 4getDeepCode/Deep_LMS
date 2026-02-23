@@ -1,0 +1,43 @@
+import { Router } from "express";
+import upload from "../middlewares/multerMiddleware.js";
+import {
+  authorizeRoles,
+  authorizeSubscribers,
+  isLoggedIn,
+} from "../middlewares/authMiddleware.js";
+import {
+  addLectureToCourseById,
+  createCourse,
+  deleteCourseById,
+  getAllCourses,
+  getLecturesByCourseId,
+  removeLectureFromCourse,
+  updateCourseById,
+} from "../controllers/courseController.js";
+const router = Router();
+
+router
+  .route("/")
+  .get(getAllCourses)
+  .post(
+    isLoggedIn,
+    authorizeRoles("ADMIN"),
+    upload.single("thumbnail"),
+    createCourse,
+  )
+  .delete(isLoggedIn, authorizeRoles("ADMIN"), removeLectureFromCourse)
+  
+
+router
+  .route("/:id")
+  .get(isLoggedIn, authorizeSubscribers, getLecturesByCourseId)
+  .post(
+    isLoggedIn,
+    authorizeRoles("ADMIN"),
+    upload.single("lecture"),
+    addLectureToCourseById,
+  )
+  .put(isLoggedIn, authorizeRoles("ADMIN"), updateCourseById)
+  .delete(isLoggedIn, authorizeRoles("ADMIN"), deleteCourseById);
+
+export default router;
