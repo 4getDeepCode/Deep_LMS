@@ -5,7 +5,10 @@ import cors from "cors";
 import morgan from "morgan";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
-import courseRoutes from './routes/courseRoutes.js';
+import courseRoutes from "./routes/courseRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js"
+import miscRoutes from "./routes/miscellaneousRoutes.js"
+
 
 const app = express();
 app.use(express.json());
@@ -28,6 +31,8 @@ app.get("/ping", (_req, res) => {
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course",courseRoutes)
+app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1', miscRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({

@@ -6,6 +6,7 @@ import asyncHandler from "../middlewares/asyncHandlerMiddleware.js";
 import AppError from "../utils/appError.js";
 
 export const getAllCourses = asyncHandler(async (_req, res, next) => {
+  
   const courses = await Course.find({}).select("-lectures");
 
   res.status(200).json({
