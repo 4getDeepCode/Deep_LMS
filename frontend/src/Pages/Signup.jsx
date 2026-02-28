@@ -83,7 +83,7 @@ function Signup() {
     formData.append("avatar", signupData.avatar);
 
     // dispatch create account action
-  
+
     const response = await dispatch(createAccount(formData));
 
     if (response?.payload?.success) {
@@ -101,25 +101,39 @@ function Signup() {
   }
 
   return (
+    
+
     <HomeLayout>
-      <div className="flex overflow-x-auto items-center justify-center h-[100vh]">
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-blue-950 to-black animate-[gradientMove_8s_ease_infinite]"></div>
+
+ 
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-600 rounded-full blur-[120px] opacity-20"></div>
+        <div className="absolute bottom-20 right-20 w-72 h-72 bg-cyan-500 rounded-full blur-[120px] opacity-20"></div>
+
         <form
           noValidate
           onSubmit={createNewAccount}
-          className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]"
+          className="relative z-10 flex flex-col gap-4 w-96 p-8 rounded-xl
+                   bg-white/5 backdrop-blur-lg border border-white/10
+                   shadow-[0_0_30px_rgba(0,0,0,0.6)] text-white"
         >
-          <h1 className="text-center text-2xl font-bold">Registration Page</h1>
+          <h1 className="text-center text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
+            Registration Page
+          </h1>
 
           <label htmlFor="image_uploads" className="cursor-pointer">
             {previewImage ? (
               <img
-                className="w-24 h-24 rounded-full m-auto"
+                className="w-24 h-24 rounded-full m-auto object-cover border border-blue-500"
                 src={previewImage}
               />
             ) : (
-              <BsPersonCircle className="w-24 h-24 rounded-full m-auto" />
+              <BsPersonCircle className="w-24 h-24 rounded-full m-auto text-blue-400" />
             )}
           </label>
+
           <input
             onChange={getImage}
             className="hidden"
@@ -128,10 +142,11 @@ function Signup() {
             id="image_uploads"
             accept=".jpg, .jpeg, .png,"
           />
+
+     
           <div className="flex flex-col gap-1">
-            <label htmlFor="fullName" className="font-semibold">
-              {" "}
-              Name{" "}
+            <label htmlFor="fullName" className="font-semibold text-gray-300">
+              Name
             </label>
             <input
               type="text"
@@ -139,15 +154,17 @@ function Signup() {
               name="fullName"
               id="fullName"
               placeholder="Enter your name.."
-              className="bg-transparent px-2 py-1 border"
+              className="bg-transparent px-3 py-2 border border-blue-500/40 rounded-md
+                       focus:outline-none focus:border-blue-500
+                       transition-all duration-300"
               onChange={handleUserInput}
               value={signupData.fullName}
             />
           </div>
+
           <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="font-semibold">
-              {" "}
-              Email{" "}
+            <label htmlFor="email" className="font-semibold text-gray-300">
+              Email
             </label>
             <input
               type="email"
@@ -155,15 +172,18 @@ function Signup() {
               name="email"
               id="email"
               placeholder="Enter your email.."
-              className="bg-transparent px-2 py-1 border"
+              className="bg-transparent px-3 py-2 border border-blue-500/40 rounded-md
+                       focus:outline-none focus:border-blue-500
+                       transition-all duration-300"
               onChange={handleUserInput}
               value={signupData.email}
             />
           </div>
+
+  
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="font-semibold">
-              {" "}
-              Password{" "}
+            <label htmlFor="password" className="font-semibold text-gray-300">
+              Password
             </label>
             <input
               type="password"
@@ -171,7 +191,9 @@ function Signup() {
               name="password"
               id="password"
               placeholder="Enter your password.."
-              className="bg-transparent px-2 py-1 border"
+              className="bg-transparent px-3 py-2 border border-blue-500/40 rounded-md
+                       focus:outline-none focus:border-blue-500
+                       transition-all duration-300"
               onChange={handleUserInput}
               value={signupData.password}
             />
@@ -179,21 +201,38 @@ function Signup() {
 
           <button
             type="submit"
-            className="mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
+            className="mt-3 bg-gradient-to-r from-blue-600 to-cyan-500
+                     rounded-md py-2 font-semibold text-lg
+                     transition-all duration-300 ease-in-out
+                     hover:scale-105 hover:-translate-y-1
+                     hover:shadow-[0_0_25px_rgba(59,130,246,0.6)]"
           >
-            Create account
+            Create Account
           </button>
 
-          <p className="text-center">
-            Already have an account ?{" "}
-            <Link to="/login" className="link text-accent cursor-pointer">
-              {" "}
+          <p className="text-center text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-blue-400 hover:text-cyan-400 transition-colors duration-300"
+            >
               Login
             </Link>
           </p>
         </form>
+
+        <style>
+          {`
+          @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+        </style>
       </div>
     </HomeLayout>
+
   );
 }
 
