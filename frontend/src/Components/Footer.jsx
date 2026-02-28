@@ -1,4 +1,3 @@
-
 import { BsFacebook, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
 
 function Footer() {
@@ -24,7 +23,8 @@ function Footer() {
         {/* Social Icons */}
         <div className="flex gap-6 text-xl">
           <a
-            href="#"
+            href="https://www.facebook.com/profile.php?id=100007366842570"
+            target="_blank"
             className="p-3 rounded-full border border-gray-700 
                        hover:border-blue-500 hover:bg-blue-500/10
                        hover:shadow-[0_0_15px_rgba(59,130,246,0.6)]
@@ -34,7 +34,8 @@ function Footer() {
           </a>
 
           <a
-            href="#"
+            href="https://www.instagram.com/deep_codding?igsh=cXEzZ2p1aWRpdWQy"
+            target="_blank"
             className="p-3 rounded-full border border-gray-700 
                        hover:border-blue-500 hover:bg-blue-500/10
                        hover:shadow-[0_0_15px_rgba(59,130,246,0.6)]
@@ -44,7 +45,8 @@ function Footer() {
           </a>
 
           <a
-            href="#"
+            href="https://www.linkedin.com/in/deep-chand-513a69360"
+            target="_blank"
             className="p-3 rounded-full border border-gray-700 
                        hover:border-blue-500 hover:bg-blue-500/10
                        hover:shadow-[0_0_15px_rgba(59,130,246,0.6)]
@@ -54,7 +56,8 @@ function Footer() {
           </a>
 
           <a
-            href="#"
+            href="https://x.com/deepc2060"
+            target="_blank"
             className="p-3 rounded-full border border-gray-700 
                        hover:border-blue-500 hover:bg-blue-500/10
                        hover:shadow-[0_0_15px_rgba(59,130,246,0.6)]
@@ -67,7 +70,7 @@ function Footer() {
 
       {/* Divider */}
       <div className="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500 text-sm">
-        Designed & Developed by Deep Chand 
+        Designed & Developed by Deep Chand
       </div>
     </footer>
   );
