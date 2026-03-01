@@ -1,4 +1,5 @@
 import Footer from "@/Components/Footer";
+import { logout } from "@/Redux/Slices/AuthSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,9 +29,9 @@ function HomeLayout({ children }) {
   async function handleLogout(e) {
     e.preventDefault();
 
-    // const res = await dispatch(logout());
-    // if (res?.payload?.success)
-    // navigate("/");
+    const res = await dispatch(logout());
+    if (res?.payload?.success)
+    navigate("/");
   }
 
   return (
