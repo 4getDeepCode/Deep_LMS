@@ -35,7 +35,7 @@ function HomeLayout({ children }) {
   }
 
   return (
-    <div className="min-h-[90vh] bg-gradient-to-r from-black via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-r from-black via-gray-900 to-black text-white">
       <div className="drawer absolute left-0 z-50 w-fit">
         <input className="drawer-toggle" id="my-drawer" type="checkbox" />
 
