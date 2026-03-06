@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HomeLayout from "@/Layouts/HomeLayout";
 
 const NotFound = () => {
+  const navigate = useNavigate();
   return (
     <HomeLayout>
       <div className="relative min-h-screen hero overflow-hidden">
@@ -44,23 +45,6 @@ const NotFound = () => {
               />
             </div>
 
-            {/*          
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                to="/"
-                className="btn bg-gradient-to-r from-blue-600 to-cyan-500 border-none text-white hover:scale-105 transition-transform"
-              >
-                Go Home
-              </Link>
-
-              <Link
-                to="/courses"
-                className="btn btn-outline border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white"
-              >
-                Explore Courses
-              </Link>
-            </div> */}
-
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/"
@@ -81,6 +65,16 @@ const NotFound = () => {
                hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
               >
                 Explore Courses
+              </Link>
+
+              <Link
+                onClick={() => navigate(-1)}
+                className="btn bg-gradient-to-r from-blue-600 to-cyan-500 border-none text-white 
+                transition-all duration-300 ease-in-out 
+                hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] 
+                hover:-translate-y-1"
+              >
+                Go Back
               </Link>
             </div>
           </div>
