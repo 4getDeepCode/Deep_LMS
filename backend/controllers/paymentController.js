@@ -1,10 +1,9 @@
-import crypto from 'crypto';
-import User from '../models/userModel.js';
-import asyncHandler from '../middlewares/asyncHandlerMiddleware.js';
-import AppError from '../utils/appError.js';
-import Payment from '../models/paymentModel.js';
-import { razorpay } from '../config/razorpay.js';
-
+import crypto from "crypto";
+import User from "../models/userModel.js";
+import asyncHandler from "../middlewares/asyncHandlerMiddleware.js";
+import AppError from "../utils/appError.js";
+import Payment from "../models/paymentModel.js";
+import { razorpay } from "../config/razorpay.js";
 
 export const buySubscription = asyncHandler(async (req, res, next) => {
   const { id } = req.user;
@@ -12,16 +11,16 @@ export const buySubscription = asyncHandler(async (req, res, next) => {
   const user = await User.findById(id);
 
   if (!user) {
-    return next(new AppError('Unauthorized, please login'));
+    return next(new AppError("Unauthorized, please login"));
   }
 
-  if (user.role === 'ADMIN') {
-    return next(new AppError('Admin cannot purchase a subscription', 400));
+  if (user.role === "ADMIN") {
+    return next(new AppError("Admin cannot purchase a subscription", 400));
   }
 
   const subscription = await razorpay.subscriptions.create({
-    plan_id: process.env.RAZORPAY_PLAN_ID, 
-    customer_notify: 1, 
+    plan_id: process.env.RAZORPAY_PLAN_ID,
+    customer_notify: 1,
     total_count: 12,
   });
 
@@ -32,7 +31,7 @@ export const buySubscription = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: 'subscribed successfully',
+    message: "subscribed successfully",
     subscription_id: subscription.id,
   });
 });
@@ -47,12 +46,12 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
   const subscriptionId = user.subscription.id;
 
   const generatedSignature = crypto
-    .createHmac('sha256', process.env.RAZORPAY_SECRET)
+    .createHmac("sha256", process.env.RAZORPAY_SECRET)
     .update(`${razorpay_payment_id}|${subscriptionId}`)
-    .digest('hex');
+    .digest("hex");
 
   if (generatedSignature !== razorpay_signature) {
-    return next(new AppError('Payment not verified, please try again.', 400));
+    return next(new AppError("Payment not verified, please try again.", 400));
   }
 
   await Payment.create({
@@ -61,34 +60,31 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
     razorpay_signature,
   });
 
-  user.subscription.status = 'active';
+  user.subscription.status = "active";
 
   await user.save();
 
   res.status(200).json({
     success: true,
-    message: 'Payment verified successfully',
+    message: "Payment verified successfully",
   });
 });
-
 
 export const cancelSubscription = asyncHandler(async (req, res, next) => {
   const { id } = req.user;
 
   const user = await User.findById(id);
 
-  if (user.role === 'ADMIN') {
+  if (user.role === "ADMIN") {
     return next(
-      new AppError('Admin does not need to cannot cancel subscription', 400)
+      new AppError("Admin does not need to cannot cancel subscription", 400),
     );
   }
 
   const subscriptionId = user.subscription.id;
 
   try {
-    const subscription = await razorpay.subscriptions.cancel(
-      subscriptionId 
-    );
+    const subscription = await razorpay.subscriptions.cancel(subscriptionId);
 
     user.subscription.status = subscription.status;
 
@@ -108,33 +104,32 @@ export const cancelSubscription = asyncHandler(async (req, res, next) => {
   if (refundPeriod <= timeSinceSubscribed) {
     return next(
       new AppError(
-        'Refund period is over, so there will not be any refunds provided.',
-        400
-      )
+        "Refund period is over, so there will not be any refunds provided.",
+        400,
+      ),
     );
   }
 
   await razorpay.payments.refund(payment.razorpay_payment_id, {
-    speed: 'optimum', 
+    speed: "optimum",
   });
 
-  user.subscription.id = undefined; 
-  user.subscription.status = undefined; 
+  user.subscription.id = undefined;
+  user.subscription.status = undefined;
 
   await user.save();
   await payment.remove();
 
   res.status(200).json({
     success: true,
-    message: 'Subscription canceled successfully',
+    message: "Subscription canceled successfully",
   });
 });
-
 
 export const getRazorpayApiKey = asyncHandler(async (_req, res, _next) => {
   res.status(200).json({
     success: true,
-    message: 'Razorpay API key',
+    message: "Razorpay API key",
     key: process.env.RAZORPAY_KEY_ID,
   });
 });
@@ -148,18 +143,18 @@ export const allPayments = asyncHandler(async (req, res, _next) => {
   });
 
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const finalMonths = {
@@ -199,7 +194,7 @@ export const allPayments = asyncHandler(async (req, res, _next) => {
 
   res.status(200).json({
     success: true,
-    message: 'All payments',
+    message: "All payments",
     allPayments,
     finalMonths,
     monthlySalesRecord,
