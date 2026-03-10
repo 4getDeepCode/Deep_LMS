@@ -47,7 +47,7 @@ export const verifyUserPayment = createAsyncThunk("/payments/verify", async (dat
 
 export const getPaymentRecord = createAsyncThunk("/payments/record", async () => {
     try {
-        const response = await axiosInstance.get("/payments?count=100", );
+        const response = axiosInstance.get("/payments?count=100", );
         toast.promise(response, {
             loading: "Getting the payment records",
             success: (data) => {
