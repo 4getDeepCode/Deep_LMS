@@ -87,6 +87,65 @@ export const getUserData = createAsyncThunk("/user/details", async () => {
   }
 });
 
+export const changePassword = createAsyncThunk(
+  "/user/change/password",
+  async (data) => {
+    try {
+      const res = axiosInstance.post("user/change-password", data);
+
+      toast.promise(res, {
+        loading: "Changing password...",
+        success: (data) => data?.data?.message,
+        error: "Failed to change password",
+      });
+
+      return (await res).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  },
+);
+
+export const forgotPassword = createAsyncThunk(
+  "/user/forgot/password",
+  async (email) => {
+    try {
+      const res = axiosInstance.post("user/reset", { email });
+
+      toast.promise(res, {
+        loading: "Sending reset link...",
+        success: (data) => data?.data?.message,
+        error: "Failed to send reset email",
+      });
+
+      return (await res).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk(
+  "/user/reset/password",
+  async (data) => {
+    try {
+      const res = axiosInstance.post(`user/reset/${data.token}`, {
+        password: data.password,
+      });
+
+      toast.promise(res, {
+        loading: "Resetting password...",
+        success: (data) => data?.data?.message,
+        error: "Failed to reset password",
+      });
+
+      return (await res).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -115,6 +174,9 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.data = action?.payload?.user;
         state.role = action?.payload?.user?.role;
+      })
+      .addCase(resetPassword.fulfilled, () => {
+        toast.success("Password reset successful. Please login.");
       });
   },
 });
